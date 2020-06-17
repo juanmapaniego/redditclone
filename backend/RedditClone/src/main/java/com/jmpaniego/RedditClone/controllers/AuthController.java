@@ -1,5 +1,7 @@
 package com.jmpaniego.RedditClone.controllers;
 
+import com.jmpaniego.RedditClone.dto.AuthenticationResponse;
+import com.jmpaniego.RedditClone.dto.LoginRequest;
 import com.jmpaniego.RedditClone.dto.RegisterRequest;
 import com.jmpaniego.RedditClone.exceptions.SpringRedditException;
 import com.jmpaniego.RedditClone.services.AuthService;
@@ -24,6 +26,11 @@ public class AuthController {
   public ResponseEntity<String> accountVerification(@PathVariable("token") String token){
     authService.verifyAccount(token);
     return ResponseEntity.ok("Account activated successfully");
+  }
+
+  @PostMapping("/login")
+  public AuthenticationResponse login(@RequestBody LoginRequest loginRequest){
+    return authService.login(loginRequest);
   }
 
   @ExceptionHandler(SpringRedditException.class)
