@@ -1,6 +1,8 @@
 package com.jmpaniego.RedditClone.services;
 
 import com.jmpaniego.RedditClone.dto.SubredditDto;
+import com.jmpaniego.RedditClone.exceptions.SpringRedditException;
+import com.jmpaniego.RedditClone.mapper.SubredditMapper;
 import com.jmpaniego.RedditClone.models.Subreddit;
 import com.jmpaniego.RedditClone.repositories.SubredditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +17,30 @@ public class SubredditService {
 
   @Autowired
   private SubredditRepository subredditRepository;
+  @Autowired
+  private SubredditMapper subredditMapper;
 
   @Transactional
   public SubredditDto save(SubredditDto subredditDto){
-    Subreddit subreddit = mapSubredditDto(subredditDto);
+    Subreddit subreddit = subredditMapper.mapDtoToSubreddit(subredditDto);
     Subreddit save = subredditRepository.save(subreddit);
     subredditDto.setId(save.getId());
     return subredditDto;
-  }
-
-  private Subreddit mapSubredditDto(SubredditDto subredditDto) {
-    return Subreddit.builder().name(subredditDto.getName())
-        .description(subredditDto.getDescription())
-        .build();
   }
 
   @Transactional(readOnly = true)
   public List<SubredditDto> getAll() {
     return subredditRepository.findAll()
         .stream()
-        .map(this::mapToDto)
+        .map(subredditMapper::mapSubredditToDto)
         .collect(Collectors.toList());
   }
 
-  private SubredditDto mapToDto(Subreddit subreddit) {
-    return SubredditDto.builder().name(subreddit.getName())
-        .description(subreddit.getDescription())
-        .id(subreddit.getId())
-        .numberOfPosts(subreddit.getPosts().size())
-        .build();
+  @Transactional(readOnly = true)
+  public SubredditDto getSubreddit(Long id) {
+    Subreddit subreddit = subredditRepository.findById(id).orElseThrow(
+        () -> new SpringRedditException("Not Subreddit found with id " + id)
+    );
+    return subredditMapper.mapSubredditToDto(subreddit);
   }
 }
