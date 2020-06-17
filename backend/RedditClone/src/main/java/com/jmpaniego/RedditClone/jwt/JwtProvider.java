@@ -1,6 +1,7 @@
 package com.jmpaniego.RedditClone.jwt;
 
 import com.jmpaniego.RedditClone.exceptions.SpringRedditException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -36,11 +37,32 @@ public class JwtProvider {
         .compact();
   }
 
-  private Key getPrivateKey() {
+  private PrivateKey getPrivateKey() {
     try{
       return (PrivateKey) keyStore.getKey("springblog","secret".toCharArray());
     }catch (UnrecoverableKeyException | NoSuchAlgorithmException  | KeyStoreException e){
       throw new SpringRedditException("Exception ocurred while retrieving private key");
     }
+  }
+
+  public boolean validateToken(String jwt){
+    Jwts.parser().setSigningKey(getPublicKey()).parseClaimsJws(jwt);
+    return true;
+  }
+
+  private PublicKey getPublicKey() {
+    try{
+      return keyStore.getCertificate("springblog").getPublicKey();
+    }catch (KeyStoreException e){
+      throw new SpringRedditException("Exception ocurred while retrieving private key");
+    }
+  }
+
+  public String getUsernameFromJwt(String jwt){
+    Claims claims = Jwts.parser()
+        .setSigningKey(getPublicKey())
+        .parseClaimsJws(jwt)
+        .getBody();
+    return claims.getSubject();
   }
 }

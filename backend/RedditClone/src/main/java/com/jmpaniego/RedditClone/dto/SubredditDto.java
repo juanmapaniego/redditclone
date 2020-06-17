@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AuthenticationResponse {
-  private String username;
-  private String authenticationToken;
+public class SubredditDto {
+  private Long id;
+  private String name;
+  private String description;
+  private Integer numberOfPosts;
 }
