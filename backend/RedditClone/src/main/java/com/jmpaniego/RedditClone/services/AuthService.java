@@ -2,15 +2,18 @@ package com.jmpaniego.RedditClone.services;
 
 import com.jmpaniego.RedditClone.dto.AuthenticationResponse;
 import com.jmpaniego.RedditClone.dto.LoginRequest;
+import com.jmpaniego.RedditClone.dto.RefreshTokenRequest;
 import com.jmpaniego.RedditClone.dto.RegisterRequest;
 import com.jmpaniego.RedditClone.exceptions.SpringRedditException;
 import com.jmpaniego.RedditClone.jwt.JwtProvider;
 import com.jmpaniego.RedditClone.models.NotificationEmail;
+import com.jmpaniego.RedditClone.models.RefreshToken;
 import com.jmpaniego.RedditClone.models.User;
 import com.jmpaniego.RedditClone.models.VerificationToken;
 import com.jmpaniego.RedditClone.repositories.UserRepository;
 import com.jmpaniego.RedditClone.repositories.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,6 +42,9 @@ public class AuthService {
   private AuthenticationManager authenticationManager;
   @Autowired
   private JwtProvider jwtProvider;
+  @Autowired
+  private RefreshTokenService refreshTokenService;
+
 
   @Transactional
   public void signup(RegisterRequest registerRequest){
@@ -115,6 +121,8 @@ public class AuthService {
     return AuthenticationResponse.builder()
         .authenticationToken(token)
         .username(loginRequest.getUsername())
+        .refreshToken(refreshTokenService.generateRefreshToken().getToken() )
+        .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
         .build();
   }
 
@@ -130,5 +138,16 @@ public class AuthService {
   public boolean isLoggedIn() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+  }
+
+  public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+    refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+    String token = jwtProvider.generateTokenWithUsername(refreshTokenRequest.getUsername());
+    return AuthenticationResponse.builder()
+        .authenticationToken(token)
+        .refreshToken(refreshTokenRequest.getRefreshToken())
+        .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+        .username(refreshTokenRequest.getUsername())
+        .build();
   }
 }
