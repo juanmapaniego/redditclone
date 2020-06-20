@@ -23,8 +23,10 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public PostResponse getPost(@PathVariable Long id){
-    return postService.getPost(id);
+  public ResponseEntity<PostResponse> getPost(@PathVariable Long id){
+    return ResponseEntity.ok(
+        postService.getPost(id)
+    );
   }
 
   @GetMapping("/")

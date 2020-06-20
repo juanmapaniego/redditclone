@@ -128,11 +128,15 @@ public class AuthService {
 
   @Transactional(readOnly = true)
   public User getCurrentUser() {
-    org.springframework.security.core.userdetails.User principal =
+    Authentication principal = SecurityContextHolder.
+        getContext().getAuthentication();
+    return userRepository.findByUsername(principal.getName())
+        .orElseThrow(() -> new SpringRedditException("User name not found - " + principal.getName()));
+    /*org.springframework.security.core.userdetails.User principal =
         (org.springframework.security.core.userdetails.User) SecurityContextHolder.
         getContext().getAuthentication().getPrincipal();
     return userRepository.findByUsername(principal.getUsername())
-        .orElseThrow(() -> new SpringRedditException("User name not found - " + principal.getUsername()));
+        .orElseThrow(() -> new SpringRedditException("User name not found - " + principal.getUsername()));*/
   }
 
   public boolean isLoggedIn() {

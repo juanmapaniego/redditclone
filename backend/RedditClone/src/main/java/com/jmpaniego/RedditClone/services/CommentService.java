@@ -39,6 +39,8 @@ public class CommentService {
     Post post = postRepository.findById(commentsDto.getPostId()).orElseThrow(
         ()->new SpringRedditException("")
     );
+    System.out.println(commentsDto.getPostId());
+    System.out.println(post);
     User user = authService.getCurrentUser();
     Comment comment = commentRepository.save(commentsMapper.map(commentsDto, post, user));
 
