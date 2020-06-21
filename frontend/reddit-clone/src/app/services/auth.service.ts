@@ -27,7 +27,7 @@ export class AuthService {
 
     return this.httpClient
       .post<LoginResponse>(
-        "http://localhost:8080/api/auth/refresh/token",
+        "/api/auth/refresh/token",
         refresTokenRequest
       )
       .pipe(
@@ -57,7 +57,7 @@ export class AuthService {
 
   login(loginRequest: LoginRequest): Observable<boolean> {
     return this.httpClient
-      .post<LoginResponse>("http://localhost:8080/api/auth/login", loginRequest)
+      .post<LoginResponse>("/api/auth/login", loginRequest)
       .pipe(
         map((data) => {
           this.localStorage.store(
@@ -77,7 +77,7 @@ export class AuthService {
 
   signup(registerRequest: RegisterRequest): Observable<any> {
     return this.httpClient.post(
-      "http://localhost:8080/api/auth/signup",
+      "/api/auth/signup",
       registerRequest,
       {
         responseType : "text"
@@ -87,7 +87,7 @@ export class AuthService {
   
   logout(token : RefreshToken){
     this.httpClient.post(
-      "http://localhost:8080/api/auth/logout",
+      "/api/auth/logout",
       token,
       {
         responseType : "text"

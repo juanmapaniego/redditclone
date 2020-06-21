@@ -11,19 +11,19 @@ export class PostService {
   
   getAllPostsByUser(name: string) : Observable<Array<Post>> {
     return this.httpClient.get<Array<Post>>(
-      "http://localhost:8080/api/posts/by-user/" + name
+      "/api/posts/by-user/" + name
     );
   }
   
   getPost(postId: number) : Observable<Post>{
     return this.httpClient.get<Post>(
-      "http://localhost:8080/api/posts/"+postId
+      "/api/posts/"+postId
     );
   }
 
   createPost(postRequest: PostRequest) : Observable<any> {
     return this.httpClient.post(
-      "http://localhost:8080/api/posts/",
+      "/api/posts/",
       postRequest
     );
   }
@@ -32,7 +32,7 @@ export class PostService {
 
   getAllSubreddits(): Observable<Array<Post>>{
     return this.httpClient.get<Array<Post>>(
-      "http://localhost:8080/api/posts/"
+      "/api/posts/"
     );
   }
 }

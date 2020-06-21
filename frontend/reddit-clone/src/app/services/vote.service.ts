@@ -12,7 +12,7 @@ export class VoteService {
 
   vote(vote : Vote) : Observable<any> {
     return this.httpClient.post(
-      "http://localhost:8080/api/votes/",
+      "/api/votes/",
       vote
     );
   }

@@ -9,20 +9,20 @@ import { Comment } from "src/app/commons/comment";
 export class CommentService {
   getAllCommentsByUser(name: string) : Observable<Array<Comment>> {
     return this.httpClient.get<Array<Comment>>(
-      "http://localhost:8080/api/comments/by-user/" + name
+      "/api/comments/by-user/" + name
     );
   }
 
   postComment(comment: Comment): Observable<any> {
     return this.httpClient.post(
-      "http://localhost:8080/api/comments/", comment
+      "/api/comments/", comment
     );
   }
   constructor(private httpClient: HttpClient) {}
 
   getCommentsByPost(id: number): Observable<Array<Comment>> {
     return this.httpClient.get<Array<Comment>>(
-      "http://localhost:8080/api/comments/by-post/" + id
+      "/api/comments/by-post/" + id
     );
   }
 }

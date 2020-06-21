@@ -8,15 +8,17 @@ import { SubredditResponse } from '../commons/subreddit-response';
 })
 export class SubredditsService {
   createSubreddit(subredditModel: SubredditResponse) :Observable<SubredditResponse>{
-    return this.httpClient.post<SubredditResponse>("http://localhost:8080/api/subreddit",
-                    subredditModel)
+    return this.httpClient.post<SubredditResponse>(
+      "/api/subreddit",
+      subredditModel
+    );
   }
 
   constructor(private httpClient : HttpClient) { }
 
   getAllSubreddits(): Observable<Array<SubredditResponse>>{
     return this.httpClient.get<Array<SubredditResponse>>(
-      "http://localhost:8080/api/subreddit"
+      "/api/subreddit"
     );
   }
 }
