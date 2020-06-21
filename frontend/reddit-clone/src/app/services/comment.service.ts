@@ -7,6 +7,12 @@ import { Comment } from "src/app/commons/comment";
   providedIn: "root",
 })
 export class CommentService {
+  getAllCommentsByUser(name: string) : Observable<Array<Comment>> {
+    return this.httpClient.get<Array<Comment>>(
+      "http://localhost:8080/api/comments/by-user/" + name
+    );
+  }
+
   postComment(comment: Comment): Observable<any> {
     return this.httpClient.post(
       "http://localhost:8080/api/comments/", comment

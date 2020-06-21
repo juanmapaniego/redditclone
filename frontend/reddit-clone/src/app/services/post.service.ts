@@ -8,8 +8,14 @@ import { PostRequest } from '../commons/post-request';
   providedIn: 'root'
 })
 export class PostService {
+  
+  getAllPostsByUser(name: string) : Observable<Array<Post>> {
+    return this.httpClient.get<Array<Post>>(
+      "http://localhost:8080/api/posts/by-user/" + name
+    );
+  }
+  
   getPost(postId: number) : Observable<Post>{
-    console.log(postId);
     return this.httpClient.get<Post>(
       "http://localhost:8080/api/posts/"+postId
     );

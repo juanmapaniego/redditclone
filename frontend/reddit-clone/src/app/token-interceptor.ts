@@ -34,15 +34,18 @@ export class TokenInterceptor implements HttpInterceptor {
 
     const jwtToken = this.authService.getJwtToken();
 
-    return next.handle(this.addToken(req, jwtToken)).pipe(
-      catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 403) {
-          return this.handleAuthErrors(req, next);
-        } else {
-          return throwError(error);
-        }
-      })
-    );
+    if(jwtToken){
+      return next.handle(this.addToken(req, jwtToken)).pipe(
+        catchError((error) => {
+          if (error instanceof HttpErrorResponse && error.status === 403) {
+            return this.handleAuthErrors(req, next);
+          } else {
+            return throwError(error);
+          }
+        })
+      );
+    }
+    return next.handle(req);
   }
 
   addToken(req: HttpRequest<any>, jwtToken: any) {

@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EditorModule } from "@tinymce/tinymce-angular";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap"
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,7 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { CreateSubredditComponent } from './components/create-subreddit/create-subreddit.component';
 import { ListSubredditsComponent } from './components/list-subreddits/list-subreddits.component';
 import { ViewPostComponent } from './components/view-post/view-post.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { ViewPostComponent } from './components/view-post/view-post.component';
     CreatePostComponent,
     CreateSubredditComponent,
     ListSubredditsComponent,
-    ViewPostComponent
+    ViewPostComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,8 @@ import { ViewPostComponent } from './components/view-post/view-post.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     FontAwesomeModule,
-    EditorModule
+    EditorModule,
+    NgbModule
   ],
   providers: [
     {
