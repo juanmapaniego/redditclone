@@ -6,7 +6,7 @@ It a spring boot backend app integrated with angular for frontend.
 You need a mysql instance, add user, password and path of mysql database. 
 After creating database you can alter the property named *spring.jpa.hibernate.ddl-auto* to *create* and run the backend so, the app create al tables.
 After that change to original value. 
-Also, this app use MailTrap service as SMTP server, so you have to create ann account to continue. And with this change respective values on +application.properties*
+Also, this app use MailTrap service as SMTP server, so you have to create ann account to continue. And with this change respective values on *application.properties*
 
 ## Build
 
