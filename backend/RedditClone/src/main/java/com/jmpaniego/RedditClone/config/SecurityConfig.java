@@ -32,7 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/api/auth/**")
+        .antMatchers("/", "/login", "/logout", "/error").permitAll()  //angular
+        .antMatchers("/resources/**").permitAll()  //angular
+        .antMatchers("/*.js").permitAll() //angular
+        .antMatchers("/api/auth/**") 
           .permitAll()
         .antMatchers(HttpMethod.GET, "/api/subreddit", "/api/posts/", "/api/posts/**")
           .permitAll()

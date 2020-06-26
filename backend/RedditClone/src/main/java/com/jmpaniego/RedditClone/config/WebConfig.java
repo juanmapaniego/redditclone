@@ -1,4 +1,4 @@
-package com.jmpaniego.RedditClone.config;
+/*package com.jmpaniego.RedditClone.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -29,4 +29,4 @@ public class WebConfig implements WebMvcConfigurer {
     registry.addResourceHandler("/webjars/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
   }
-}
+}*/
